@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: habitbot
+      POSTGRES_PASSWORD: habitbot_password
+      POSTGRES_DB: habitbot
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U habitbot -d habitbot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  bot:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN:-9189327303:AAExMtCFUpVZgyWcj1AdOgpUQhjOi_0B56o}
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://habitbot:habitbot_password@postgres:5432/habitbot}
+      DEFAULT_TZ: ${DEFAULT_TZ:-Asia/Tashkent}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+volumes:
+  pgdata:
