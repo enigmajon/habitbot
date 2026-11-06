@@ -353,8 +353,7 @@ class SchedulerRunner:
             lines.append(t(user, "digest_no_plans"))
 
         await self.bot.send_message(
-            user.telegram_id, "
-".join(lines), parse_mode="HTML"
+            user.telegram_id, "\n".join(lines), parse_mode="HTML"
         )
 
     async def _handle_long_timer_check(
