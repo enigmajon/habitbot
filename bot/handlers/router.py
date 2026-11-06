@@ -621,8 +621,7 @@ async def nav_today(
                 is_limit=(a.kind == ActivityKind.LIMIT.value),
             )
             tgt_str = format_duration(a.daily_target_minutes, user)
-            lines.append(f"{a.emoji} <b>{a.name}</b>: {dur_str} / {tgt_str}
-<code>{bar}</code>")
+            lines.append(f"{a.emoji} <b>{a.name}</b>: {dur_str} / {tgt_str}\n<code>{bar}</code>")
         elif a.actual_minutes > 0:
             lines.append(f"{a.emoji} <b>{a.name}</b>: {dur_str}")
 
@@ -636,8 +635,7 @@ async def nav_today(
         ),
     )
     b.row(InlineKeyboardButton(text=t(user, "btn_menu"), callback_data="nav:menu"))
-    await safe_edit_or_send(event, "
-".join(lines), reply_markup=b.as_markup())
+    await safe_edit_or_send(event, "\n".join(lines), reply_markup=b.as_markup())
 
 
 @router.callback_query(F.data == "tdy:rest")
