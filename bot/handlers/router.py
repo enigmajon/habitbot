@@ -469,15 +469,15 @@ async def cb_stop_timer(
             today_dur=today_dur,
         )
 
-if user.mood_prompt_enabled:
-        msg += "\n\n" + t(user, "mood_prompt")
-        await safe_edit_or_send(
-            cb, msg, reply_markup=kb_mood_prompt(user, outcome.session.id)
-        )
-    else:
-        await safe_edit_or_send(
-            cb, msg, reply_markup=kb_note_prompt(user, outcome.session.id)
-        )
+        if user.mood_prompt_enabled:
+            msg += "\n\n" + t(user, "mood_prompt")
+            await safe_edit_or_send(
+                cb, msg, reply_markup=kb_mood_prompt(user, outcome.session.id)
+            )
+        else:
+            await safe_edit_or_send(
+                cb, msg, reply_markup=kb_note_prompt(user, outcome.session.id)
+            )
 
 
 @router.message(Command("status"))
