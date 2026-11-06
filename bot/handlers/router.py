@@ -470,9 +470,7 @@ async def cb_stop_timer(
         )
 
     if user.mood_prompt_enabled:
-        msg += "
-
-" + t(user, "mood_prompt")
+      msg += "\n\n" + t(user, "mood_prompt")
         await safe_edit_or_send(
             cb, msg, reply_markup=kb_mood_prompt(user, outcome.session.id)
         )
